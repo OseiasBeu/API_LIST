@@ -41,7 +41,7 @@ def exibir_listas_mercado(nome):
 
 
 #METODOS POST
-@app.route('/inserir_produtos', methods=['POST'])
+@app.route('/inserir_produto', methods=['POST'])
 def merc_produtos():
 
     print("SAINDO")
@@ -61,7 +61,7 @@ def merc_produtos():
     saida = {'nome_mercado': novo_produto['nome_mercado'],'cod': novo_produto['cod'],'nome': novo_produto['nome'], 'preco': novo_produto['preco']}
     return jsonify(saida)
 
-@app.route('/inserir_produtos/testando', methods=['POST'])
+@app.route('/inserir_produtos', methods=['POST'])
 def merc_produtosa():
     saida = []
     for data in request.json:
