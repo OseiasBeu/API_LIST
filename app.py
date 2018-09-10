@@ -21,7 +21,7 @@ def show_post(post_id):
     return 'Teste Post com id %d' % post_id
 
 #METODOS GET
-@app.route('/exibir_listas', methods=['GET'])
+@app.route('/exibir_produtos', methods=['GET'])
 def exibir_listas():
     saida = []
 
@@ -29,7 +29,7 @@ def exibir_listas():
         saida.append({'cod':data['cod'], 'nome': data['nome'], 'preco': data['preco']})
     return jsonify({'Resultado':saida})
 
-@app.route('/exibir_listas/<nome>', methods=['GET'])
+@app.route('/exibir_produtos/<nome>', methods=['GET'])
 def exibir_listas_mercado(nome):
     saida = []
 
@@ -42,7 +42,7 @@ def exibir_listas_mercado(nome):
 
 #METODOS POST
 @app.route('/inserir_produto', methods=['POST'])
-def merc_produtos():
+def insere_produto():
 
     print("SAINDO")
     print(request.json)
@@ -62,7 +62,7 @@ def merc_produtos():
     return jsonify(saida)
 
 @app.route('/inserir_produtos', methods=['POST'])
-def merc_produtosa():
+def insere_produtos():
     saida = []
     for data in request.json:
         print(data)
@@ -76,3 +76,22 @@ def merc_produtosa():
         saida.append({'nome_mercado': novo_produto['nome_mercado'],'cod': novo_produto['cod'],'nome': novo_produto['nome'], 'preco': novo_produto['preco']})
 
     return jsonify(saida)
+
+#METODOS DELETE
+@app.route('/apagar_documentos', methods=['DELETE'])
+def apaga_documentos():
+
+    collection.remove({})
+    return "Documentos removidos com sucesso!"
+
+#return jsonify('200')
+
+@app.route('/deletar_produtos', methods=['DELETE'])
+def deleta_produtos():
+    print(request.json)
+    nomeMercado = request.json['nome_mercado']
+    nomeItem = request.json['nome']
+
+#    collection.find("nome_mercado"
+    collection.remove({nomeMercado : { "$eq": "nomeItem" }})
+    return "Item removido com sucesso!"
