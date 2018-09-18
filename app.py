@@ -76,6 +76,28 @@ def insere_produtos():
 
     return jsonify(saida)
 
+
+#METODOS UPDATE
+@app.route('/inclui_campo', methods=['PUT'])
+def inclui_campo():
+
+    data = request.json
+    nome = data['nome']
+    status = data['status']
+
+
+    query = {'nome': nome}
+    mod = {"$set":{ 'status': data['status']}}
+#    options = {"multi": "true"}
+    queries = {query, mod}
+    db.collection.update()
+
+    return "Campo incluido com sucesso!"
+
+
+
+
+
 #METODOS DELETE
 @app.route('/apagar_documentos', methods=['DELETE'])
 def apaga_documentos():
