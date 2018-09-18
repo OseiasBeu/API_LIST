@@ -1,6 +1,6 @@
+import pymongo
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-import pymongo
 from pymongo import MongoClient
 
 app = Flask(__name__)
@@ -10,7 +10,6 @@ client = MongoClient()
 db = client.listas_db
 collection = db.produtos
 
-#METODOS PARA TESTE
 @app.route('/')
 def hello_world():
     return 'Teste Flask'
@@ -29,13 +28,13 @@ def exibir_listas():
         saida.append({'cod':data['cod'], 'nome': data['nome'], 'preco': data['preco']})
     return jsonify({'Resultado':saida})
 
-@app.route('/exibir_produtos/<nome>', methods=['GET'])
-def exibir_listas_mercado(nome):
+@app.route('/pesquisar_produtos/<nome>', methods=['GET'])
+def exibir_produto(nome):
     saida = []
 
     for data in collection.find({'nome': nome}):
         if data:
-            saida.append({'cod': data['cod'], 'Nome' : data['nome'], 'preco': data['preco']})
+            saida.append({'cod': data['cod'],'nome_mercado' : data['nome_mercado'] ,'nome' : data['nome'], 'preco': data['preco']})
 
     return jsonify({'Resultado': saida})
 
@@ -63,10 +62,10 @@ def insere_produto():
 
 @app.route('/inserir_produtos', methods=['POST'])
 def insere_produtos():
+
     saida = []
     for data in request.json:
         print(data)
-#        print(data['cod'])
         nomeMercado = data['nome_mercado']
         cod = data['cod']
         nome = data['nome']
