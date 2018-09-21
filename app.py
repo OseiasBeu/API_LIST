@@ -25,16 +25,16 @@ def exibir_listas():
     saida = []
 
     for data in collection.find():
-        saida.append({'cod':data['cod'], 'nome': data['nome'], 'preco': data['preco']})
+        saida.append({'cod':data['cod'],'nome_mercado' : data['nome_mercado'], 'nome_produto': data['nome_produto'], 'preco': data['preco']})
     return jsonify({'Resultado':saida})
 
-@app.route('/pesquisar_produtos/<nome>', methods=['GET'])
-def exibir_produto(nome):
+@app.route('/pesquisar_produtos/<nome_produto>', methods=['GET'])
+def exibir_produto(nome_produto):
     saida = []
 
-    for data in collection.find({'nome': nome}):
+    for data in collection.find({'nome_produto': nome_produto}):
         if data:
-            saida.append({'cod': data['cod'],'nome_mercado' : data['nome_mercado'] ,'nome' : data['nome'], 'preco': data['preco']})
+            saida.append({'cod': data['cod'],'nome_mercado' : data['nome_mercado'] ,'nome_produto' : data['nome_produto'], 'preco': data['preco']})
 
     return jsonify({'Resultado': saida})
 
@@ -49,15 +49,15 @@ def insere_produto():
 
     nomeMercado = request.json['nome_mercado']
     cod = request.json['cod']
-    nome = request.json['nome']
+    nome_produto = request.json['nome_produto']
     preco = request.json['preco']
 
     print("SAINDO")
     print(request.json)
-    produto_id = collection.insert({'nome_mercado':nomeMercado,'cod': cod, 'nome': nome, 'preco': preco})
+    produto_id = collection.insert({'nome_mercado':nomeMercado,'cod': cod, 'nome_produto': nome_produto, 'preco': preco})
     novo_produto = collection.find_one({'_id': produto_id})
 
-    saida = {'nome_mercado': novo_produto['nome_mercado'],'cod': novo_produto['cod'],'nome': novo_produto['nome'], 'preco': novo_produto['preco']}
+    saida = {'nome_mercado': novo_produto['nome_mercado'],'cod': novo_produto['cod'],'nome_produto': novo_produto['nome_produto'], 'preco': novo_produto['preco']}
     return jsonify(saida)
 
 @app.route('/inserir_produtos', methods=['POST'])
@@ -68,33 +68,30 @@ def insere_produtos():
         print(data)
         nomeMercado = data['nome_mercado']
         cod = data['cod']
-        nome = data['nome']
+        nome_produto = data['nome_produto']
         preco = data['preco']
-        produto_id = collection.insert({'nome_mercado':nomeMercado,'cod': cod, 'nome': nome, 'preco': preco})
+        produto_id = collection.insert({'nome_mercado':nomeMercado,'cod': cod, 'nome_produto': nome_produto, 'preco': preco})
         novo_produto = collection.find_one({'_id': produto_id})
-        saida.append({'nome_mercado': novo_produto['nome_mercado'],'cod': novo_produto['cod'],'nome': novo_produto['nome'], 'preco': novo_produto['preco']})
+        saida.append({'nome_mercado': novo_produto['nome_mercado'],'cod': novo_produto['cod'],'nome_produto': novo_produto['nome_produto'], 'preco': novo_produto['preco']})
 
     return jsonify(saida)
 
 
 #METODOS UPDATE
-@app.route('/inclui_campo', methods=['PUT'])
+@app.route('/inclui_campo', methods=['POST'])
 def inclui_campo():
 
     data = request.json
-    nome = data['nome']
+    nome_produto = data['nome_produto']
     status = data['status']
 
 
-    query = {'nome': nome}
+    query = {'nome_produto': nome_produto}
     mod = {"$set":{ 'status': data['status']}}
-#    options = {"multi": "true"}
-    queries = {query, mod}
-    db.collection.update()
-
+    options = {"multi": "true"}
+#    queries = {query, mod}
+    db.collection.update(query, mod, options)
     return "Campo incluido com sucesso!"
-
-
 
 
 
@@ -111,8 +108,10 @@ def apaga_documentos():
 def deleta_produtos():
     print(request.json)
     nomeMercado = request.json['nome_mercado']
-    nomeItem = request.json['nome']
+    nome_produto = request.json['nome_produto']
 
 #    collection.find("nome_mercado"
     collection.remove({nomeMercado : { "$eq": "nomeItem" }})
     return "Item removido com sucesso!"
+
+
