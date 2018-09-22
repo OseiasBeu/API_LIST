@@ -107,11 +107,10 @@ def apaga_documentos():
 @app.route('/deletar_produtos', methods=['DELETE'])
 def deleta_produtos():
     print(request.json)
-    nomeMercado = request.json['nome_mercado']
-    nome_produto = request.json['nome_produto']
+    data = request.json
+    query = {"$and":[{'nome_mercado':data['nome_mercado'] },{'nome_produto':data['nome_produto']}]} 
 
-#    collection.find("nome_mercado"
-    collection.remove({nomeMercado : { "$eq": "nomeItem" }})
+    collection.remove(query)
     return "Item removido com sucesso!"
 
 
