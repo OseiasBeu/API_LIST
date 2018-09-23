@@ -21,14 +21,14 @@ def show_post(post_id):
 
 #METODOS GET
 @app.route('/exibir_produtos', methods=['GET'])
-def exibir_listas():
+def exibir_produtos():
     saida = []
 
     for data in collection.find():
         saida.append({'cod':data['cod'],'nome_mercado' : data['nome_mercado'], 'nome_produto': data['nome_produto'], 'preco': data['preco']})
     return jsonify({'Resultado':saida})
 
-@app.route('/pesquisar_produtos/<nome_produto>', methods=['GET'])
+@app.route('/pesquisar_produto/<nome_produto>', methods=['GET'])
 def exibir_produto(nome_produto):
     saida = []
 
