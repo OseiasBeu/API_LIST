@@ -27,14 +27,12 @@
  ### GET
  --------------------------------------------------------------------------------------------------------------------------
  - http://localhost:5000/exibir_produtos 
- - http://localhost:5000/pesquisar_produto/mesa
+ - http://localhost:5000/pesquisar_produto/NOME_DO_PRODUTO_QUE_DESEJA_VERIFICAR
  --------------------------------------------------------------------------------------------------------------------------
  ### POST
  --------------------------------------------------------------------------------------------------------------------------
- - http://localhost:5000/exibir_produtos_do_mercado  (ainda não está funcionando)
+ - http://localhost:5000/exibir_produtos_do_mercado/NOME_DO_MERCADO_QUE_DESEJA_VER_OS_PRODUTOS
  - OBS.:  Está rota serve para pesquisar todos os produtos de um único mercado
- 
- ## EM CONSTRUÇÃO
  
 ```
 {

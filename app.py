@@ -38,6 +38,14 @@ def exibir_produto(nome_produto):
 
     return jsonify({'Resultado': saida})
 
+@app.route('/exibir_produtos_do_mercado/<nome_mercado>', methods=['GET'])
+def mostra_produtos(nome_mercado):
+    saida = []
+    for data in collection.find({'nome_mercado':nome_mercado}):
+        if data:
+            saida.append({'cod': data['cod'],'nome_mercado' : data['nome_mercado'] ,'nome_produto' : data['nome_produto'], 'preco': data['preco']})
+
+    return jsonify({'Resultado': saida})
 
 #METODOS POST
 @app.route('/inserir_produto', methods=['POST'])
